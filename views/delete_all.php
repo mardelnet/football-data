@@ -9,15 +9,7 @@
 
 <?php  if ( $_POST['deleteall'] && $_POST['deleteall'] != '' ) : ?>
         
-    <?php
-    $allposts= get_posts( array(
-        'post_type' => array( 'competition' , 'team' , 'player' ) ,
-        'numberposts' => -1),
-    );
-    foreach ($allposts as $eachpost) {
-        wp_delete_post( $eachpost->ID, true );
-    }
-    ?>
+    <?php deleteAll(); ?>
 
     <div class='alert'>
         <strong>All the data has been deleted!</strong>

@@ -6,8 +6,8 @@ function my_admin_metaboxes_teams() {
     add_meta_box( 'team_meta_box1', 'ID', 'display_team_meta_box1','team', 'side', 'high' );
     add_meta_box( 'team_meta_box2', 'TLA', 'display_team_meta_box2','team', 'side', 'high' );
     add_meta_box( 'team_meta_box3', 'Shortname', 'display_team_meta_box3','team', 'side', 'high' );
-    add_meta_box( 'team_meta_box4', 'Area', 'display_team_meta_box4','team', 'side', 'high' );
-    add_meta_box( 'team_meta_box5', 'Email', 'display_team_meta_box5','team', 'side', 'high' );
+    add_meta_box( 'team_meta_box4', 'Email', 'display_team_meta_box4','team', 'side', 'high' );
+    add_meta_box( 'team_meta_box5', 'Area', 'display_team_meta_box5','team', 'side', 'high' );
     add_meta_box( 'team_meta_box6', 'Competitions', 'display_team_meta_box6','team', 'side', 'high' );
     add_meta_box( 'team_meta_box7', 'Players', 'display_team_meta_box7','team', 'side', 'high' );
 

@@ -2,6 +2,15 @@
 add_action('admin_menu', 'football_plugin_setup_menu');
 add_filter('use_block_editor_for_post', '__return_false', 10);
 
+function deleteAll() {
+    $allposts= get_posts( array(
+        'post_type' => array( 'competition' , 'team' , 'player' ) ,
+        'numberposts' => -1),
+    );
+    foreach ($allposts as $eachpost) {
+        wp_delete_post( $eachpost->ID, true );
+    }
+}
 function football_plugin_setup_menu(){
     add_menu_page( 
         'Football Data Page', 

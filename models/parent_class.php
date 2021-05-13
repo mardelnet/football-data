@@ -5,7 +5,6 @@ class MainModels {
   public $type;
 
   public function __construct( $competition_id ) {
-      //$this->remove_all( $competition_id );
       $this->imported_data = $this->import_all( $this->type , $competition_id );
       $this->type = null;
       $this->insert_posts( $this->imported_data , $type );
@@ -30,46 +29,5 @@ class MainModels {
     return $isInDB;
   }
 }
-
-
-/*
-  public function remove_all( $competition_id ) {
-    //echo $competition_id;
-    if ( $this->type == 'competition' ) {
-      $allposts= get_posts( array( 
-        'post_type' => $this->type , 
-        'numberposts' => -1, 
-      ));
-    }
-    else if ( $this->type == 'team' ) {
-      $allposts= get_posts( array(
-        'post_type' => $this->type ,
-        'numberposts' => -1,
-        'meta_key'   => 'team_competition',
-        'meta_value' => $competition_id
-      ));
-    }
-    else if ( $this->type == 'player' ) {
-      $tax = 'player_competition'; 
-      $allposts= get_posts( array(
-        'post_type' => $this->type ,
-        'numberposts' => -1,
-        'tax_query' => array(
-          array(
-              'taxonomy' => $tax,
-              'field' => 'name',
-              'terms' => $competition_id,
-              'operator' => 'IN'
-          )
-        )
-        ) 
-      );
-    }
-    foreach ($allposts as $eachpost) {
-        wp_delete_post( $eachpost->ID, true );
-    }
-  }
-  */
-  
-  ?>
+?>
 
