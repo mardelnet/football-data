@@ -24,13 +24,22 @@ class Team extends MainModels {
                 $flag = wp_insert_post($new_team);
             }
             else {
+                $current_comp = get_post_meta( $exist[0]->ID , 'team_competition' )[0];
+
+                if ( strpos( $current_comp , $data->competition->code ) !== false ) {    
+                    $update_comp = $current_comp;
+                }
+                else {
+                    $update_comp = $current_comp . ' / ' . $data->competition->code;
+                }
+
                 $new_team = array(
                     'ID' => $exist[0]->ID,
                     'meta_input'   => array(
-                        'team_competition' => get_post_meta( $exist[0]->ID , 'team_competition' )[0] . ' / ' . $data->competition->code),
+                        'team_competition' => $update_comp),
                 );
+                $flag = wp_update_post($new_team);
             }
-            
         }
     }
 }

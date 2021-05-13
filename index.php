@@ -15,8 +15,12 @@ require_once('models/competition.php');
 require_once('models/team.php');
 require_once('models/player.php');
 require_once('views/plugin_interface.php');
-require_once('views/metaboxes.php');
-require_once('views/admin_columns.php');
+require_once('views/metaboxes/teams.php');
+require_once('views/metaboxes/competitions.php');
+require_once('views/metaboxes/players.php');
+require_once('views/admin_columns/teams.php');
+require_once('views/admin_columns/competitions.php');
+require_once('views/admin_columns/players.php');
 require_once('controllers/post_types.php');
 require_once('controllers/functions.php');
 ?>

@@ -14,21 +14,17 @@ function getAllCompetitions() {
     return array( "BSA","PL","ELC","CL","EC","FL1","BL1","SA","DED","PPL","PD","WC" );
 }
 function getPlayersInTeam( $post_id ) {
-    $players = get_posts(array(
-        'numberposts' => -1,
-        'post_type' => 'player' , 
-        'meta_key'   => 'api_team',
-        'meta_value' => get_the_title( $post_id ),
-    ));
+    global $wpdb;
+    $meta = "'%" .  get_post_meta( $post_id , 'api_tla' )[0] . "%'";
+    $players = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE `meta_key` LIKE 'api_team_code' AND `meta_value` LIKE $meta" );
+    //var_dump($players);
     return $players;
 }
 function getTeamsInComp( $post_id ) {
-    $teams = get_posts(array(
-        'numberposts' => -1,
-        'post_type' => 'team' , 
-        'meta_key'   => 'team_competition',
-        'meta_value' => get_post_meta( $post_id , 'comp' )[0],
-    ));
+    global $wpdb;
+    $meta = "'%" .  get_post_meta( $post_id , 'comp' )[0] . "%'";
+    $teams = $wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE `meta_key` LIKE 'team_competition' AND `meta_value` LIKE $meta" );
+    //var_dump($teams);
     return $teams;
 }
 ?>

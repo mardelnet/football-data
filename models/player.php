@@ -11,37 +11,48 @@ class Player extends MainModels {
         }
         $club_name = $data->name;
         $club_code = $data->tla;
-        echo $data->code;
-
+        
         foreach ( $data->squad as $player ) {  
 
-            $playerinDB = get_posts(array(
-                'numberposts' => 1,
-                'post_type' => 'player' , 
-                'meta_key'   => 'api_id',
-                'meta_value' => $player->id,
-            ));
-            //echo $playerinDB[0]->ID;
-            //var_dump($player);
-            $new_player = array(
-                'post_type' => 'player',
-                'post_status' => 'publish',
-                'post_title' => $player->name,
-                'meta_input'   => array(
-                    'ID' => $playerinDB[0]->ID,
-                    'api_id' => $player->id,
-                    'api_team' => $club_name,
-                    'api_team_code' => $club_code,
-                    'api_position' => $player->position,
-                    'api_birth' => $player->dateOfBirth,
-                    'api_cbirth' => $player->countryOfBirth,
-                    'api_nation' => $player->nationality),
-            );
-            if ( sizeof( $playerinDB ) > 0 ) {
-                $flag = wp_update_post($new_player);
+            $exist = $this->checkIfExists( 'player' , $player->id );
+
+            if ( empty( $exist ) ) {
+                //var_dump($player);
+                $new_player = array(
+                    'post_type' => 'player',
+                    'post_status' => 'publish',
+                    'post_title' => $player->name,
+                    'meta_input'   => array(
+                        'api_id' => $player->id,
+                        'api_team' => $club_name,
+                        'api_team_code' => $club_code,
+                        'api_position' => $player->position,
+                        'api_birth' => $player->dateOfBirth,
+                        'api_cbirth' => $player->countryOfBirth,
+                        'api_nation' => $player->nationality),
+                );
+                $flag = wp_insert_post($new_player);
             }
             else {
-                $flag = wp_insert_post($new_player);
+                $current_team = get_post_meta( $exist[0]->ID , 'api_team_code' )[0];
+                $current_team_name = get_post_meta( $exist[0]->ID , 'api_team' )[0];
+
+                if ( strpos( $current_team , $club_code ) !== false ) {    
+                    $update_team_code = $current_team;
+                    $update_team_name = $current_team_name;
+                }
+                else {
+                    $update_team_code = $current_team . ' / ' . $club_code;
+                    $update_team_name = $current_team_name . ' / ' . $club_name;
+                }
+
+                $new_player = array(
+                    'ID' => $exist[0]->ID,
+                    'meta_input'   => array(
+                        'api_team' => $update_team_name,
+                        'api_team_code' => $update_team_code),
+                );
+                $flag = wp_update_post($new_player);
             }
         }
     }
