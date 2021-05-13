@@ -1,11 +1,15 @@
 <div class='box'>
     <h3>Players in League</h3>
-    <form action="<?php echo admin_url( 'admin.php' ); ?>?page=football_plugin" method="post">
-        <label for="leagues">
-            Returns the players that belong to all teams participating in the given league.
-        </label>
-        <hr>
-        <?php include('select_compt.php'); ?>
-        <input type="submit" value="Run" style='padding: 5px 10px'>
-    </form>
+    <span>
+        Returns the players that belong to all teams participating in the given league.
+    </span>
+    <hr>
+    <?php $allposts= get_posts( array('post_type' => 'competition' ,'numberposts' => -1, )); ?>
+    <select onchange="location = this.value;">
+        <?php foreach( $allposts as $post ) : ?>
+            <option value="<?php echo get_edit_post_link( $post->ID ); ?>">
+                <?php echo get_the_title( $post ); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
 </div>

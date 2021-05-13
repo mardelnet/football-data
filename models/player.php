@@ -9,7 +9,10 @@ class Player extends MainModels {
         foreach ( $data->activeCompetitions as $competitions ) {
             array_push( $comps , $competitions->code );
         }
-        $club = $data->name;
+        $club_name = $data->name;
+        $club_code = $data->tla;
+        echo $data->code;
+
         foreach ( $data->squad as $player ) {  
 
             $playerinDB = get_posts(array(
@@ -27,12 +30,12 @@ class Player extends MainModels {
                 'meta_input'   => array(
                     'ID' => $playerinDB[0]->ID,
                     'api_id' => $player->id,
-                    'api_team' => $club,
+                    'api_team' => $club_name,
+                    'api_team_code' => $club_code,
                     'api_position' => $player->position,
                     'api_birth' => $player->dateOfBirth,
                     'api_cbirth' => $player->countryOfBirth,
-                    'api_nation' => $player->nationality,
-                    'player_competition' => $comps),
+                    'api_nation' => $player->nationality),
             );
             if ( sizeof( $playerinDB ) > 0 ) {
                 $flag = wp_update_post($new_player);
